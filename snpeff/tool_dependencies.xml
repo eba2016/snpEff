@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="snpEff" version="4.1">
+        <repository changeset_revision="f101a6608928" name="package_snpeff_4_1" owner="nlapalu" toolshed="http://toolshed.france-bioinformatique.fr" />
+    </package>
+</tool_dependency>
