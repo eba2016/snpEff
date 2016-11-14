@@ -6,11 +6,13 @@
     </macros>
     <command>
 <![CDATA[
-   echo ${genome_version}.genome >> "\$SNPEFF_JAR_PATH/snpEff.config";
-   mkdir -p $snpeff_db.files_path/$genome_version;
-   cp $genome $snpeff_db.files_path/$genome_version/sequences.fa;
-   cp $annotation $snpeff_db.files_path/$genome_version/genes.gff;
-   java -Xmx6G -jar "\$SNPEFF_JAR_PATH/snpEff.jar" build  -gff3 -v $genome_version -dataDir $snpeff_db.files_path
+    cp "\$SNPEFF_JAR_PATH/snpEff.config" $snpeff_config_file &&
+    echo ${genome_version}.genome >> $snpeff_config_file &&
+    mkdir -p $snpeff_db.files_path/$genome_version &&
+    cp $genome $snpeff_db.files_path/$genome_version/sequences.fa &&
+    cp $annotation $snpeff_db.files_path/$genome_version/genes.gff &&
+    echo -e "${genome_version}\nSnpEff4.1" > $snpeff_db &&
+    java -Xmx6G -jar "\$SNPEFF_JAR_PATH/snpEff.jar" build -c $snpeff_config_file -gff3 -v $genome_version -dataDir $snpeff_db.files_path
 ]]>
     </command>
     <inputs>
@@ -21,7 +23,8 @@
         <param format="gff" name="annotation" type="data" label="annotation file (gff3)"/>
     </inputs>
     <outputs>
-        <data format="snpeffdbv4" name="snpeff_db" label="personal db ${genome_version}"/>
+        <data format="snpeffdb" name="snpeff_db" label="personal db ${genome_version}"/>
+        <data format="text" name="snpeff_config_file" label="personal db ${genome_version} config file"/>
     </outputs>
 
     <expand macro="stdio" />
